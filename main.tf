@@ -15,4 +15,6 @@ output "my_property" {
   value = data.akamai_property.my_property
 }
 
-
+locals {
+  notes = "AKCR-12345:${data.akamai_group.my_group_id.id}"
+}

@@ -10,7 +10,7 @@ resource "akamai_edge_hostname" "my_sc_ehn" {
   contract_id = data.akamai_group.my_group_id.contract_id
   group_id = data.akamai_group.my_group_id.id
   edge_hostname = "tf-scriptclub.test.edgekey.net"
-  ip_behavior = "IPV4"
+  ip_behavior = "IPV6_COMPLIANCE"
   certificate = 30192
 }
 
