@@ -1,3 +1,8 @@
+locals {
+  staging_version    = akamai_property.tf-scriptclub-property.staging_version != null ? akamai_property.tf-scriptclub-property.staging_version : 1
+  production_version = akamai_property.tf-scriptclub-property.production_version != null ? akamai_property.tf-scriptclub-property.production_version : 1
+}
+
 resource "akamai_cp_code" "my_sc_cpcode" {
   name        = "Script Club CP Code"
   contract_id = data.akamai_group.my_group_id.contract_id
@@ -31,4 +36,28 @@ resource "akamai_property" "tf-scriptclub-property" {
 
   rule_format = data.akamai_property_rules_builder.tf-scriptclub_rule_default.rule_format
   rules = data.akamai_property_rules_builder.tf-scriptclub_rule_default.json
+}
+
+resource "akamai_property_activation" "staging_activation" {
+  property_id   = akamai_property.tf-scriptclub-property.id
+  contact       = ["rhauk@akamai.com"]
+  version       = var.activate_latest_on_staging ? akamai_property.tf-scriptclub-property.latest_version : local.staging_version
+  network       = "STAGING"
+  auto_acknowledge_rule_warnings = true
+  note          = local.notes
+}
+
+resource "akamai_property_activation" "production_activation" {
+  property_id   = akamai_property.tf-scriptclub-property.id
+  contact       = ["rhauk@akamai.com"]
+  version       = var.activate_latest_on_production ? akamai_property.tf-scriptclub-property.latest_version : local.production_version
+  network       = "PRODUCTION"
+  note          = local.notes
+  auto_acknowledge_rule_warnings = true
+  depends_on    = [akamai_property_activation.staging_activation]
+  compliance_record {
+    noncompliance_reason_no_production_traffic {
+      ticket_id = "123"
+    }
+  }
 }
