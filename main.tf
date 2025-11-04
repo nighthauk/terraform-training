@@ -18,3 +18,11 @@ output "my_property" {
 locals {
   notes = "AKCR-12345:${data.akamai_group.my_group_id.id}"
 }
+
+locals {
+  hostnames = [for app in var.apps : "${app}.test.edgekey.net"]
+}
+
+output "app_hostnames" {
+  value = local.hostnames
+}

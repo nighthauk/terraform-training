@@ -10,7 +10,7 @@ data "akamai_property_rules_builder" "tf-scriptclub_rule_default" {
         compress                      = true
         enable_true_client_ip         = true
         forward_host_header           = "ORIGIN_HOSTNAME"
-        hostname                      = "script-club-origin-1ovshfqo.fermyon.app"
+        hostname                      = var.ab_test == "A" ? "script-club-dev-origin-1ovshfqo.fermyon.app" : "script-club-origin-1ovshfqo.fermyon.app"
         http_port                     = 80
         https_port                    = 443
         ip_version                    = "IPV4"

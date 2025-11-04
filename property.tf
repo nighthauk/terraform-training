@@ -20,10 +20,13 @@ resource "akamai_property" "tf-scriptclub-property" {
   contract_id  = data.akamai_group.my_group_id.contract_id
   group_id     = data.akamai_group.my_group_id.id
 
-  hostnames {
-    cname_from = "tf-scriptclub.test.edgekey.net"
-    cname_to   = akamai_edge_hostname.my_sc_ehn.edge_hostname
-    cert_provisioning_type = "CPS_MANAGED"
+  dynamic "hostnames" {
+    for_each = local.hostnames
+    content {
+      cname_from = hostnames.value
+      cname_to   = akamai_edge_hostname.my_sc_ehn.edge_hostname
+      cert_provisioning_type = "CPS_MANAGED"
+    }
   }
 
   rule_format = data.akamai_property_rules_builder.tf-scriptclub_rule_default.rule_format
