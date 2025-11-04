@@ -26,6 +26,6 @@ resource "akamai_property" "tf-scriptclub-property" {
     cert_provisioning_type = "CPS_MANAGED"
   }
 
-  rule_format = "v2025-09-09"
-  rules = data.akamai_property_rules.sc_tf_rules.rules
+  rule_format = data.akamai_property_rules_builder.tf-scriptclub_rule_default.rule_format
+  rules = data.akamai_property_rules_builder.tf-scriptclub_rule_default.json
 }

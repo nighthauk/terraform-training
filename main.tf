@@ -8,7 +8,7 @@ output "my_group_id" {
 }
 
 data "akamai_property" "my_property" {
-  name = "js-scriptclub"
+  name = "tf-scriptclub"
 }
 
 output "my_property" {

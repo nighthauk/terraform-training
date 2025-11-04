@@ -9,3 +9,9 @@ variable "config_section" {
   type        = string
   default     = "terraform"
 }
+
+variable "ab_test" {
+  description = "Origin A/B Test"
+  type        = string
+  default     = "A"
+}
